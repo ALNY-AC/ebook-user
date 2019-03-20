@@ -1,6 +1,6 @@
 module.exports = {
     router: {
-        middleware: 'auth'
+        middleware: 'auth' 
     },
     mode: 'spa',
     srcDir: 'src/',
