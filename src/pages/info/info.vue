@@ -2,10 +2,10 @@
   <div id="info">
     <div class="head">
       <div class="head-img">
-        <img src="http://i0.rongshuxia.com/files/image2/zhangchi/5_.jpg">
+        <img :src="$getUrl(form.head_img)">
       </div>
       <div class="head-info">
-        <div class="title">Lorem ipsum</div>
+        <div class="title">{{form.title}}</div>
       </div>
     </div>
 
@@ -15,10 +15,10 @@
     </div>
     <div class="info-tab-box">
       <div class="info-tab-box-item box-1" v-if="active==1">
-        1Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore incidunt exercitationem consequuntur minima, ipsum possimus, corporis autem, sed dolore perferendis nemo recusandae necessitatibus illum et iure doloremque! Obcaecati, fuga cupiditate?
+        {{form.info}}
       </div>
       <div class="info-tab-box-item box-2" v-if="active==2">
-        2Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore incidunt exercitationem consequuntur minima, ipsum possimus, corporis autem, sed dolore perferendis nemo recusandae necessitatibus illum et iure doloremque! Obcaecati, fuga cupiditate?
+        {{form.publish}}
       </div>
     </div>
     <div style="padding:0 0.3rem">
@@ -32,11 +32,11 @@
         </div>
         <div class="content-file" v-if="contentActive==i">
           <audio controls v-if="item.type==2">
-            <source :src="$getUrl(item.url)">
+            <source :src="$getUrl(item.src)">
           </audio>
 
           <video controls v-if="item.type==3">
-            <source :src="$getUrl(item.url)">
+            <source :src="$getUrl(item.src)">
           </video>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { format } from "path";
 
 export default {
     name: 'index',
@@ -7,7 +8,9 @@ export default {
                 navList: [],
                 bookList: [],
             },
+            classInfo: [],
             activeId: 0,
+            key: ''
         };
     },
     methods: {
@@ -17,30 +20,41 @@ export default {
         update() {
             this.updateNav();
             this.updateList();
+            this.updateClassInfo();
         },
+
+        updateClassInfo() {
+            this.$http.get('class/get', {
+                params: {
+                    id: this.$route.query.class_id//要获取的分类的id
+                }
+            }).then(res => {
+                this.classInfo = res.data;
+                // this.form = res.data;//分类详情
+            });
+        },
+        // 导航栏分类
         updateNav() {
-            this.list.navList.push({
-                id: '1',
-                title: '导航1'
-            });
-            this.list.navList.push({
-                id: '2',
-                title: '导航2'
-            });
-            this.list.navList.push({
-                id: '3',
-                title: '导航3'
-            });
+            this.$http.get('class/list', {
+                params: {
+                    super_id: this.$route.query.class_id
+                }
+            }).then(res => {
+                this.list.navList = res.data.list;
+            })
         },
+        // 电子书列表
         updateList() {
-            // 
-            for (let i = 0; i < 20; i++) {
-                this.list.bookList.push({
-                    id: Math.random(),
-                    title: 'Lorem ipsum dolor sit amet consectetur. ' + i,
-                    book_head: 'http://i0.rongshuxia.com/files/image2/zhangchi/5_.jpg',
-                });
-            }
+            this.$http.get('book/list', {
+                params: {
+                    class_id: this.$route.query.class_id,//要获取的分类的id
+                    page: 1,
+                    key: this.key
+                }
+            }).then(res => {
+                this.list.bookList = res.data.list;
+
+            });
         }
     },
     // 计算属性

@@ -5,6 +5,7 @@ export default {
             active: 1,
             contentActive: -1,
             list: [],
+            form:[]
         };
     },
     methods: {
@@ -14,20 +15,35 @@ export default {
         },
         // 用于更新一些数据
         update() {
-
-            for (let i = 0; i < 20; i++) {
-                this.list.push({
-                    id: Math.random(),
-                    title: '章节' + i,
-                    type: i % 2 ? 2 : 3
-                });
-            }
+            this.updateBookInfo();
+            this.updateBookMenu();
+        },
+        // 电子书简介
+        updateBookInfo(){
+            this.$http.get('book/get', {
+                params: {
+                    id: this.$route.query.id//电子书的id
+                }
+            }).then(res => {
+                this.form=res.data
+                // this.form = res.data;//详情
+            });
+        },
+        //电子书目录信息
+        updateBookMenu(){
+            this.$http.get('chapter/list', {
+                params: {
+                    book_id:  this.$route.query.id //电子书的id
+                }
+            }).then(res => {
+                this.list = res.data;//获取的列表
+            });
         },
         show(item, i) {
             this.contentActive = i;
             if (item.type == 1) {
                 // pdf
-                // window.open(item.src);
+                window.open(this.$getUrl(item.src));
             }
             if (item.type == 2) {
                 // 音频
